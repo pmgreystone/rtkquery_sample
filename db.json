@@ -1,0 +1,24 @@
+{
+  "blogs": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "id": 2,
+      "title": "xml-server",
+      "author": "typicode"
+    },
+    {
+      "id": 3,
+      "title": "csv-server",
+      "author": "typicode"
+    },
+    {
+      "id": 4,
+      "title": "ts-server",
+      "author": "typicode"
+    }
+  ]
+}
