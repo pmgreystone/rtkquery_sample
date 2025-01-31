@@ -1,55 +1,71 @@
+import "../../css/index.css"
+
 import React, { useState, createContext, useContext } from "react"
 
-// import { actions } from "../services/counterReducer.ts"
-// import { selectCounterValue } from "../services/counterReducer.ts"
-// import { useSelector } from "react-redux"
-// import { Provider } from "react-redux"
-// import store from "../store.js"
+import { useSelector, useDispatch } from 'react-redux';
+
+import { increment, decrement } from "../services/counterReducer.ts";
+import { Provider } from "react-redux"
+import store from "../store.js"
 
 const initialState = { username: "", setUsername: (_: string) => { } }
 const UserContext = createContext(initialState)
+
+import { ReposComponent } from "./ApiComponents.tsx";
+
+
 export const DemoApp = () => {
 
     const [username, setUsername] = useState("")
 
     return (
-        <>
-            <h3>parent component</h3>
-            <p>{username}</p>
+        <div id="demoParentComponent">
+            <h3>Parent Component</h3>
+            <p>This is the parent component, outside <pre>UserContext</pre>, it is the source of the <pre>username</pre> state</p>
+            <pre style={{ color: 'white' }}>{username}</pre>
             <UserContext.Provider value={{ username: username, setUsername: setUsername }}>
-                <DemoComponent />
+                <DemoContextComponent />
             </UserContext.Provider>
-        </>
+            <Provider store={store}>
+                <DemoStoreComponent />
+                <ReposComponent />
+            </Provider>
+        </div>
     )
 }
 
-const DemoComponent = () => {
+const DemoContextComponent = () => {
 
-    // const count = useSelector(selectCounterValue)
     const { username, setUsername } = useContext(UserContext)
 
-    /*
     return (
-        <>
-            {count}
-            <input type="button" value="+" onClick={(_) => {
-                console.log("increment")
-                actions.increment({ payload: 1 })
-            }} />
-            <input type="button" value="-" onClick={(_) => {
-                console.log("decrement")
-                actions.decrement({ payload: 1 })
-            }} />
-        </>
-    )
-    */
-   return (
-    <>
-        <div style={{borderColor: 'black', borderWidth: 2, width: 200, height: 100}}>
-            <h4>child component</h4>
+        <div id="contextComponentContainer">
+            <h4>Child Component (Context Demo)</h4>
             <p>{username}</p>
-            <input type="text" onChange={(e) => setUsername(e.target.value)} placeholder="username"/>
+            <input type="text" onChange={(e) => setUsername(e.target.value)} placeholder="username" />
         </div>
-    </>
-   )
+    )
+}
+
+const DemoStoreComponent = () => {
+
+    const count = useSelector((state: any) => state.counter.value)
+    const dispatch = useDispatch()
+
+    return (
+        <div id="storeComponentContainer">
+            <h4>Child Component (Store Demo)</h4>
+            <p>count is {count}</p>
+            <div id="dispatchContainer">
+                <input type="button" value="-" onClick={(_) => {
+                    console.log("decrement")
+                    dispatch(decrement(1))
+                }} />
+                <input type="button" value="+" onClick={(_) => {
+                    console.log("increment")
+                    dispatch(increment(1))
+                }} />
+            </div>
+        </div>
+    )
 }

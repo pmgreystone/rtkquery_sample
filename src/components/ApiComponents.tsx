@@ -78,49 +78,21 @@ function fetchContent(username: string, repo: string, relativePath: string) {
 const ReposComponent = () => {
 
     const username = 'pattmehta'
-    const relativePath = 'README.md'
-    const [skip,setSkip] = useState(true)
-    const [repo,setRepo] = useState("")
-    const request: FileContentMetaApiRequest = {
-        repo: repo,
-        username: username,
-        relativePath: relativePath
-    }
-
     
     // note: no data type after use in generic, as it can cause error
     // return type is a query record, not a simple response data type
     const { data, error, isLoading } = useGetReposQuery(username)
-    const { data: metaResponseData, error: metaResponseError, isLoading: metaResponseLoading, } = useGetFileContentMetaQuery(
-        request,
-        {
-            skip: skip
-        }
-    )
-
-    useEffect(() => {
-        if (repo && repo.length > 5) {
-            setSkip(false)
-            let timerId = setTimeout(() => {
-                setSkip(true)
-            }, 1000)
-    
-            return () => {
-                githubApisAbortController.abort('moving to other screen')
-                setSkip(true)
-                clearTimeout(timerId)
-            }
-        }
-    },[repo])
 
     return (
         <>
-            { metaResponseData && (<span>{metaResponseData.download_url}</span>) }
-            {
-                data && (data.filter((repo: Repository) => repo.owner.login === username).map((repo: Repository, index: number) => (<div key={repo.id}>
-                    <img className="thumb animated-background" src='' onClick={(_) => /*fetchContent(username,repo.name,'README.md')*/setRepo(repo.name)} /><span className="heading">#{index + 1} {repo.name}</span>
-                </div>)))
-            }
+            <h4>Child Component (RTK Query Demo)</h4>
+            <div id="reposComponent">
+                {
+                    data && (data.filter((repo: Repository) => repo.owner.login === username).map((repo: Repository, index: number) => (<div key={repo.id}>
+                        <a href={repo.html_url}>#{index + 1} {repo.name}</a>
+                    </div>)))
+                }
+            </div>
         </>
     )
 }

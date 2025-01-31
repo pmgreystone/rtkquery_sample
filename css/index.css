@@ -149,3 +149,39 @@ span.spacer {
     width: 100%;
     height: 60px;
 }
+
+pre {
+    display: inline;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    cursor: pointer;
+}
+
+div#demoParentComponent {
+    border: 2px solid blue;
+    box-sizing: border-box;
+    background-color: rgb(132, 132, 187);
+}
+
+div#contextComponentContainer {
+    background-color: #6bb16b;
+}
+
+div#storeComponentContainer {
+    background-color: #8dd18d;
+}
+
+div#dispatchContainer {
+    display: flex;
+    flex-direction: row;
+    background-color: #e9b7d0;
+}
+
+div#reposComponent {
+    overflow-y: scroll;
+    height: 100px;
+}
+
+div#reposComponent a:hover {
+    color: blue;
+}
