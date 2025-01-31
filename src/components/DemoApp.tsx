@@ -21,7 +21,7 @@ export const DemoApp = () => {
     return (
         <div id="demoParentComponent">
             <h3>Parent Component</h3>
-            <p>This is the parent component, outside <pre>UserContext</pre>, it is the source of the <pre>username</pre> state</p>
+            <p>This is the parent component, outside <pre className="demo">UserContext</pre>, it is the source of the <pre className="demo">username</pre> state</p>
             <pre style={{ color: 'white' }}>{username}</pre>
             <UserContext.Provider value={{ username: username, setUsername: setUsername }}>
                 <DemoContextComponent />

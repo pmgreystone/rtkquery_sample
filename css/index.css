@@ -150,8 +150,8 @@ span.spacer {
     height: 60px;
 }
 
-pre {
-    display: inline;
+pre.demo {
+    display: inline !important;
     text-decoration: underline;
     text-decoration-style: wavy;
     cursor: pointer;
