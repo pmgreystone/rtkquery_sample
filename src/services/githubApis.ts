@@ -162,13 +162,38 @@ const githubApis = createApi({
     endpoints: (builder) => ({
         getRepos: builder.query<Repository[], string>({
             query: (username) => ({ url: `users/${username}/repos`, method: 'GET' }),
+            async onQueryStarted(queryArgument, queryLifeCycleApi) {
+                console.log(`[query started with param ${queryArgument}]`)
+                setTimeout(() => {console.log('[timeout]')}, 20000)
+                const { queryFulfilled } = queryLifeCycleApi
+                try {
+                    const data = await queryFulfilled
+                    console.log(`arraylength=${data.data.length} [queryFulfilled]`)
+                } catch (error) {
+                    console.log(`${error} [error reading data]`)
+                }
+            },
+            async onCacheEntryAdded(_, api) {
+                console.log('[cache entry added]')
+                // In JavaScript, await can be used with both functions that return promises and with promises directly
+                const { cacheDataLoaded, cacheEntryRemoved } = api
+                try {
+                    const data = await cacheDataLoaded
+                    console.log(`arraylength=${data.data.length} [cacheDataLoaded]`)
+                } catch (error) {
+                    console.log(`${error} [error reading cache data]`)
+                }
+                await cacheEntryRemoved
+                console.log('[cache entry removed]')
+            },
         }),
         getFileContentMeta: builder.query<FileContentMeta, FileContentMetaApiRequest>({
             query: (apiRequest) => ({ url: `repos/${apiRequest.username}/${apiRequest.repo}/contents/${apiRequest.relativePath}`, method: 'GET' })
         })
     }),
     refetchOnReconnect: true,
-    refetchOnFocus: true
+    refetchOnFocus: true,
+    keepUnusedDataFor: 20
 })
 
 // Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'
