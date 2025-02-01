@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { increment, decrement } from "../services/counterReducer.ts";
 import { Provider } from "react-redux"
-import store from "../store.js"
+import store from "../store.ts"
 
 const initialState = { username: "", setUsername: (_: string) => { } }
 const UserContext = createContext(initialState)
@@ -58,11 +58,11 @@ const DemoStoreComponent = () => {
             <p>count is {count}</p>
             <div id="dispatchContainer">
                 <input type="button" value="-" onClick={(_) => {
-                    console.log("decrement")
+                    console.log("decrement [view]")
                     dispatch(decrement(1))
                 }} />
                 <input type="button" value="+" onClick={(_) => {
-                    console.log("increment")
+                    console.log("increment [view]")
                     dispatch(increment(1))
                 }} />
             </div>

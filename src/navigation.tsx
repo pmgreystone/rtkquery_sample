@@ -16,7 +16,7 @@ import ImprovementComponent from "./components/first_blog/ImprovementComponent.t
 import SummaryComponent from "./components/first_blog/SummaryComponent.tsx"
 
 import { Provider } from "react-redux"
-import store from "./store.js"
+import store from "./store.ts"
 
 import { ArticleComponent, ReposComponent, BlogsApiComponent } from "./components/ApiComponents.tsx"
 
