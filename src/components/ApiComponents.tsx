@@ -2,16 +2,15 @@ import "../../css/styles.css"
 import "../../css/index.css"
 
 import React, { useEffect, useState } from "react"
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
+import { SerializedError } from "@reduxjs/toolkit"
 
 import { articles } from "../../articles.json"
 import { Blog } from "../services/blogApis.ts"
-import { Repository, FileContentMeta, FileContentMetaApiRequest } from "../services/githubApis.ts"
+import githubApis, { Repository, FileContentMeta, FileContentMetaApiRequest } from "../services/githubApis.ts"
 import { useGetBlogsQuery, useCreateBlogMutation } from "../services/blogApis.ts"
 import { useGetReposQuery, useGetFileContentMetaQuery } from "../services/githubApis.ts"
 import { githubApisAbortController } from "../services/githubApis.ts"
-
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
-import { SerializedError } from "@reduxjs/toolkit"
 
 interface Article {
     id: number
@@ -21,7 +20,6 @@ interface Article {
     thumb: string
     url: string
 }
-
 
 const ArticleComponent = () => {
 
@@ -59,7 +57,7 @@ function fetchContent(username: string, repo: string, relativePath: string) {
             'sec-ch-ua': '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
             'sec-ch-ua-mobile': '?0'
         },
-        
+
     }
     fetch(htmlPageUrl, configWithCors)
         .then((response) => {
@@ -78,14 +76,14 @@ function fetchContent(username: string, repo: string, relativePath: string) {
 const ReposComponent = () => {
 
     const username = 'pattmehta'
-    
+
     // note: no data type after use in generic, as it can cause error
     // return type is a query record, not a simple response data type
-    const { data, error, isLoading } = useGetReposQuery(username)
+    const { data, error, isLoading, refetch } = useGetReposQuery(username, { skip: false })
 
     return (
         <>
-            <h4>Child Component (RTK Query Demo)</h4>
+            <h4 style={{marginTop: '10px'}}>Child Component (RTK Query Demo) <span style={{cursor:'pointer',backgroundColor:'yellow',padding:'2px',fontSize:'15px'}} onClick={(_) => refetch()}>refetch</span></h4>
             <div id="reposComponent">
                 {
                     data && (data.filter((repo: Repository) => repo.owner.login === username).map((repo: Repository, index: number) => (<div key={repo.id}>
@@ -112,6 +110,7 @@ const DebugError = (props: DebugErrorProps) => {
 }
 
 const BlogsApiComponent = () => {
+
     const { data, error, isLoading } = useGetBlogsQuery()
 
     return (
