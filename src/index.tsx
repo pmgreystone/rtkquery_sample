@@ -8,6 +8,6 @@ import { DemoApp } from './components/DemoApp.tsx';
 const root = createRoot(document.body)
 root.render(
     <BrowserRouter>
-        <DemoApp/>
+        <ReactRouterApp/>
     </BrowserRouter>
 )

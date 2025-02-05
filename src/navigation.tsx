@@ -40,15 +40,15 @@ const BlogContent = () => {
     )
 }
 
-/*const Home = () => {
+const Home = () => {
     return (
-        <>
+        <div style={{overflowY: 'scroll'}}>
             <CommonHeaderComponent />
             <BlogContent />
-        </>
+            <Link to="/about">about</Link>
+        </div>
     )
-}*/
-
+}
 
 interface AboutImgProps {
     src: string
@@ -83,7 +83,7 @@ const Spacer = () => {
     )
 }
 
-const Home = () => {
+/*const Home = () => {
     return (
         <div id="content">
             <div id="aboutContainer"><AboutComponent /></div>
@@ -98,7 +98,7 @@ const Home = () => {
             </div>
         </div>
     )
-}
+}*/
 
 const About = () => {
     return (
